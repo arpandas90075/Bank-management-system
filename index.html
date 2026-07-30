@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vault — Bank Management System</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">▤</span>
+    <span>VAULT<em>bank</em></span>
+  </div>
+  <nav>
+    <button class="ghost" id="nav-admin">Admin</button>
+    <button class="ghost hidden" id="nav-logout">Sign out</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ══════════════ AUTH ══════════════ -->
+  <section class="view active" id="view-auth">
+    <div class="grid-2">
+
+      <div class="card">
+        <h2>Sign in</h2>
+        <p class="muted">Use your account number and 4-digit PIN.</p>
+        <label>Account number</label>
+        <input type="text" id="login-id" placeholder="100001" inputmode="numeric">
+        <label>PIN</label>
+        <input type="password" id="login-pin" placeholder="••••" maxlength="4" inputmode="numeric">
+        <button class="primary" id="btn-login">Sign in</button>
+        <p class="hint">Demo: <code>100001 / 1234</code> · <code>100002 / 1111</code></p>
+      </div>
+
+      <div class="card">
+        <h2>Open an account</h2>
+        <p class="muted">Minimum opening deposit is 500.00.</p>
+        <label>Full name</label>
+        <input type="text" id="open-name" placeholder="Arpan Das">
+        <div class="row">
+          <div>
+            <label>Type</label>
+            <select id="open-type">
+              <option value="SAVINGS">Savings — 4.5% interest</option>
+              <option value="CURRENT">Current — 1.2% + overdraft</option>
+            </select>
+          </div>
+          <div>
+            <label>Opening deposit</label>
+            <input type="number" id="open-amount" placeholder="500" min="500" step="0.01">
+          </div>
+        </div>
+        <label>Choose a 4-digit PIN</label>
+        <input type="password" id="open-pin" placeholder="••••" maxlength="4" inputmode="numeric">
+        <button class="primary" id="btn-open">Create account</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════ DASHBOARD ══════════════ -->
+  <section class="view" id="view-dash">
+
+    <div class="balance-card">
+      <div>
+        <span class="muted">Available balance</span>
+        <h1 id="dash-balance">0.00</h1>
+        <span class="muted" id="dash-meta">—</span>
+      </div>
+      <div class="acct-chip">
+        <span class="muted">Account</span>
+        <strong id="dash-id">—</strong>
+        <span class="pill" id="dash-type">—</span>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="tabs">
+          <button class="tab active" data-tab="deposit">Deposit</button>
+          <button class="tab" data-tab="withdraw">Withdraw</button>
+          <button class="tab" data-tab="transfer">Transfer</button>
+        </div>
+
+        <div class="pane active" id="pane-deposit">
+          <label>Amount</label>
+          <input type="number" id="dep-amount" placeholder="0.00" step="0.01">
+          <button class="primary" id="btn-deposit">Deposit</button>
+        </div>
+
+        <div class="pane" id="pane-withdraw">
+          <label>Amount</label>
+          <input type="number" id="wd-amount" placeholder="0.00" step="0.01">
+          <button class="primary" id="btn-withdraw">Withdraw</button>
+        </div>
+
+        <div class="pane" id="pane-transfer">
+          <label>Payee account number</label>
+          <input type="text" id="tr-to" placeholder="100002" inputmode="numeric">
+          <label>Amount</label>
+          <input type="number" id="tr-amount" placeholder="0.00" step="0.01">
+          <button class="primary" id="btn-transfer">Send money</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Recent activity</h2>
+        <div class="table-wrap">
+          <table id="txn-table">
+            <thead>
+              <tr><th>Type</th><th>Amount</th><th>Balance</th><th>When</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ ADMIN ══════════════ -->
+  <section class="view" id="view-admin">
+    <div class="stats" id="admin-stats"></div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>All accounts</h2>
+        <div>
+          <button class="ghost" id="btn-interest">Run interest</button>
+          <button class="ghost" id="btn-back">Back</button>
+        </div>
+      </div>
+      <input type="text" id="admin-search" placeholder="Search by name or account number…">
+      <div class="table-wrap">
+        <table id="admin-table">
+          <thead>
+            <tr><th>Account</th><th>Holder</th><th>Type</th><th>Balance</th><th>Txns</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="toast-host"></div>
+
+<footer class="foot">In-memory demo · nothing is saved, refresh resets the bank.</footer>
+
+<script src="js/store.js"></script>
+<script src="js/bank.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
